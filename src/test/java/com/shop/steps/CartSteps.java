@@ -62,11 +62,19 @@ public class CartSteps {
 
     @Then("the item quantity should be updated")
     public void theItemQuantityShouldBeUpdated() {
-        // Small wait for UI update
-        try { Thread.sleep(500); } catch (InterruptedException ignored) {}
-        String newQuantity = cartPage.getItemQuantity(0);
         int expected = Integer.parseInt(initialQuantity) + 1;
-        assertEquals(String.valueOf(expected), newQuantity,
+        String expectedStr = String.valueOf(expected);
+
+        // Wait up to 5 seconds for quantity to update in UI
+        int attempts = 10;
+        String newQuantity = "";
+        while (attempts-- > 0) {
+            newQuantity = cartPage.getItemQuantity(0);
+            if (expectedStr.equals(newQuantity)) break;
+            try { Thread.sleep(500); } catch (InterruptedException ignored) {}
+        }
+
+        assertEquals(expectedStr, newQuantity,
                 "Quantity should be increased by 1");
     }
 
