@@ -11,13 +11,99 @@ on:
 
 env:
   SHOP_APP_REPO: ${{ github.repository_owner }}/shop-app
-  BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-  BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
 jobs:
-  mobile-tests:
-    name: "${{ matrix.platform }} - ${{ matrix.device }}"
+  # --- Desktop mode: always runs, verifies all tests pass ---
+  desktop-tests:
+    name: "Desktop Chrome (mobile emulation)"
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout test repository
+        uses: actions/checkout@v4
+
+      - name: Checkout shop-app
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SHOP_APP_REPO }}
+          path: shop-app
+
+      - name: Fix gradlew permissions
+        run: chmod +x gradlew
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Start shop-app with Docker Compose
+        working-directory: shop-app
+        run: |
+          docker compose up -d
+          echo "Waiting for backend to be ready..."
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:8000/api/health | grep -q "ok"; then
+              echo "Backend is ready!"
+              break
+            fi
+            echo "Attempt $i/30 - waiting..."
+            sleep 2
+          done
+
+      - name: Verify shop-app is running
+        run: |
+          curl -f http://localhost:8000/api/health
+          curl -f http://localhost:3000 -o /dev/null -s
+
+      - name: Run tests in desktop mode
+        run: |
+          ./gradlew test \
+            -Drun.mode=desktop \
+            -Dbase.url=http://localhost:3000 \
+            -Dapi.url=http://localhost:8000
+
+      - name: Stop shop-app
+        if: always()
+        working-directory: shop-app
+        run: docker compose down
+
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: build/allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-desktop
+          path: build/allure-results/
+          retention-days: 30
+
+      - name: Post report link
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          echo "## Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "[View report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)" >> $GITHUB_STEP_SUMMARY
+
+  # --- BrowserStack mode: runs only when credentials are configured ---
+  browserstack-tests:
+    name: "BrowserStack - ${{ matrix.platform }} - ${{ matrix.device }}"
+    runs-on: ubuntu-latest
+    if: ${{ secrets.BROWSERSTACK_USERNAME != '' }}
 
     strategy:
       fail-fast: false
@@ -77,7 +163,10 @@ jobs:
           local-testing: start
           local-identifier: github-${{ github.run_id }}-${{ matrix.platform }}
 
-      - name: Run mobile tests
+      - name: Run mobile tests on BrowserStack
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         run: |
           ./gradlew test \
             -Drun.mode=browserstack \
@@ -102,47 +191,10 @@ jobs:
         working-directory: shop-app
         run: docker compose down
 
-      - name: Load Allure test report history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Copy Allure history
-        if: always()
-        run: |
-          mkdir -p allure-results/history
-          cp -r gh-pages/history/* allure-results/history/ 2>/dev/null || true
-
-      - name: Generate Allure report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: allure-results
-          allure_report: allure-report
-          allure_history: allure-history
-
-      - name: Deploy Allure report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        if: always() && github.ref == 'refs/heads/main'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-          destination_dir: ${{ matrix.platform }}
-
-      - name: Upload Allure results as artifact
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-results-${{ matrix.platform }}
-          path: allure-results/
+          path: build/allure-results/
           retention-days: 30
-
-      - name: Post Allure report link
-        if: always() && github.ref == 'refs/heads/main'
-        run: |
-          echo "## Allure Report" >> $GITHUB_STEP_SUMMARY
-          echo "[${{ matrix.platform }} report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ matrix.platform }}/)" >> $GITHUB_STEP_SUMMARY
