@@ -103,7 +103,7 @@ jobs:
   browserstack-tests:
     name: "BrowserStack - ${{ matrix.platform }} - ${{ matrix.device }}"
     runs-on: ubuntu-latest
-    if: ${{ secrets.BROWSERSTACK_USERNAME != '' }}
+    needs: desktop-tests
 
     strategy:
       fail-fast: false
@@ -162,6 +162,8 @@ jobs:
         with:
           local-testing: start
           local-identifier: github-${{ github.run_id }}-${{ matrix.platform }}
+        env:
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
       - name: Run mobile tests on BrowserStack
         env:

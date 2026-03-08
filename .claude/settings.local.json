@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gradle wrapper --gradle-version 8.12 2>&1 | tail -5)",
+      "Bash(cat > /mnt/c/Users/Oleksii/IdeaProjects/shop-tests-mobile-web/gradle/wrapper/gradle-wrapper.properties << 'EOF'\ndistributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\\\://services.gradle.org/distributions/gradle-8.12-bin.zip\nnetworkTimeout=10000\nvalidateDistributionUrl=true\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists\nEOF)",
+      "WebFetch(domain:localhost)",
+      "Bash(find /mnt/c/Users/Oleksii/IdeaProjects/shop-app/frontend -type f \\\\\\( -name \"*.html\" -o -name \"*.jsx\" -o -name \"*.tsx\" -o -name \"*.vue\" -o -name \"*.svelte\" -o -name \"*.ejs\" -o -name \"*.hbs\" -o -name \"*.pug\" \\\\\\) 2>/dev/null | head -60)",
+      "Bash(curl -s http://localhost:8000/openapi.json 2>/dev/null | head -5000)",
+      "Bash(curl -s http://localhost:8000/api/health 2>/dev/null && echo \"Backend OK\" || echo \"Backend NOT running\")",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\" 2>/dev/null || echo \"Frontend NOT running\")",
+      "Bash(export JAVA_HOME=/mnt/c/Users/Oleksii/.jdks/ms-21.0.8 && export PATH=\"$JAVA_HOME/bin:$PATH\" && java -version 2>&1)",
+      "Bash(dpkg -l)",
+      "Bash(apt list --installed)",
+      "Bash(sudo apt-get update -qq && sudo apt-get install -y -qq openjdk-21-jdk 2>&1 | tail -5)",
+      "Bash(export JAVA_HOME=~/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && ./gradlew compileJava compileTestJava 2>&1)",
+      "Bash(which node 2>/dev/null && node -v; which npm 2>/dev/null && npm -v; which appium 2>/dev/null && appium -v 2>/dev/null; which chromium-browser 2>/dev/null || which google-chrome 2>/dev/null || which chromium 2>/dev/null || echo \"No Chrome found\")",
+      "Bash(npm install -g appium 2>&1 | tail -3)",
+      "Bash(npm install --prefix ~/.local appium 2>&1 | tail -5)",
+      "Bash(~/.local/node_modules/.bin/appium -v 2>&1)",
+      "Bash(~/.local/node_modules/.bin/appium driver install chromium 2>&1)",
+      "Bash(npx @puppeteer/browsers install chrome@stable --path ~/.local/chrome-install 2>&1 | tail -5)",
+      "Bash(~/.local/chrome-install/chrome/linux-146.0.7680.66/chrome-linux64/chrome --version 2>&1)",
+      "Bash(export JAVA_HOME=~/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && ./gradlew test -Drun.mode=desktop -Dbase.url=http://localhost:3000 -Dapi.url=http://localhost:8000 --info 2>&1 | tail -100)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && ./gradlew test -Drun.mode=desktop -Dbase.url=http://localhost:3000 -Dapi.url=http://localhost:8000 2>&1 | tail -120)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && ./gradlew test -Drun.mode=desktop --info 2>&1 | grep -A5 \"DriverService\\\\|chrome\\\\|Cannot\\\\|missing\\\\|library\" | head -30)",
+      "Bash(ldd /home/oleksii/.cache/selenium/chromedriver/linux64/146.0.7680.66/chromedriver 2>&1 | grep \"not found\" | head -10)",
+      "Bash(# Also copy other required libs that come with nss3\ncp /tmp/debs/extracted/usr/lib/x86_64-linux-gnu/*.so* /home/oleksii/.local/lib/ 2>/dev/null; ls /home/oleksii/.local/lib/ | head -20)",
+      "Bash(export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ldd /home/oleksii/.cache/selenium/chromedriver/linux64/146.0.7680.66/chromedriver 2>&1 | grep \"not found\")",
+      "Bash(export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ldd /home/oleksii/.cache/selenium/chrome/linux64/146.0.7680.66/chrome 2>&1 | grep \"not found\")",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ./gradlew test -Drun.mode=desktop -Dbase.url=http://localhost:3000 -Dapi.url=http://localhost:8000 2>&1)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ./gradlew test -Drun.mode=desktop --info 2>&1 | grep -B3 \"UnsupportedOperationException\" | head -20)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ./gradlew clean test -Drun.mode=desktop -Dbase.url=http://localhost:3000 -Dapi.url=http://localhost:8000 --info 2>&1 | grep -A15 \"UnsupportedOperationException\" | head -40)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ./gradlew clean test -Drun.mode=desktop -Dbase.url=http://localhost:3000 -Dapi.url=http://localhost:8000 2>&1)",
+      "Bash(export JAVA_HOME=/home/oleksii/jdk21 && export PATH=\"$JAVA_HOME/bin:$PATH\" && export LD_LIBRARY_PATH=/home/oleksii/.local/lib:$LD_LIBRARY_PATH && ./gradlew clean test -Drun.mode=desktop --info 2>&1 | grep -B2 \"SessionNotCreatedException\\\\|Could not start\\\\|chrome not reachable\\\\|DevToolsActivePort\" | head -30)",
+      "Bash(git add .gitignore .env.example README.md build.gradle.kts settings.gradle.kts gradlew gradlew.bat gradle/wrapper/gradle-wrapper.properties gradle/wrapper/gradle-wrapper.jar .github/workflows/mobile-tests.yml src/)",
+      "Bash(git commit -m \"$\\(cat <<'EOF'\nAdd mobile web testing framework for shop-app\n\n- Gradle project with Selenide-Appium, Cucumber, Allure, REST Assured\n- DriverFactory: local Appium, BrowserStack, desktop Chrome modes\n- Page Objects with real locators from shop-app frontend\n- API helpers for test data setup \\(AuthApi, ProductApi, CartApi, OrderApi\\)\n- 17 Cucumber BDD scenarios: login, products, cart, checkout\n- Hooks: driver lifecycle, screenshot on failure, Allure attachments\n- Smoke and Regression runners with JUnit Platform Suite\n- GitHub Actions CI/CD: matrix strategy for Android + iOS on BrowserStack\n- Allure report deployment to GitHub Pages\nEOF\n\\)\")",
+      "Bash(git config user.name 2>/dev/null; git config user.email 2>/dev/null; git config --global user.name 2>/dev/null; git config --global user.email 2>/dev/null; cat ~/.gitconfig 2>/dev/null | head -10)",
+      "Bash(git config user.name \"oleksiis27\" && git config user.email \"alex.sizonov27@gmail.com\")"
+    ]
+  }
+}
