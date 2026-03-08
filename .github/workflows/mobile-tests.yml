@@ -42,6 +42,9 @@ jobs:
           repository: ${{ env.SHOP_APP_REPO }}
           path: shop-app
 
+      - name: Fix gradlew permissions
+        run: chmod +x gradlew
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -111,7 +114,7 @@ jobs:
         if: always()
         run: |
           mkdir -p allure-results/history
-          cp -r gh-pages/${{ matrix.platform }}/history/* allure-results/history/ 2>/dev/null || true
+          cp -r gh-pages/history/* allure-results/history/ 2>/dev/null || true
 
       - name: Generate Allure report
         uses: simple-elf/allure-report-action@master
@@ -119,7 +122,7 @@ jobs:
         with:
           allure_results: allure-results
           allure_report: allure-report
-          allure_history: allure-history/${{ matrix.platform }}
+          allure_history: allure-history
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
