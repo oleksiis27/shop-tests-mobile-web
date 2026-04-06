@@ -1,0 +1,52 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"  As a logged-in mobile user
+  I want to manage my shopping cart
+  So that I can prepare items for checkout","2377","Add product to cart from product page","","Mon Apr 06 09:11:26 UTC 2026","passed","Mon Apr 06 09:11:29 UTC 2026","","Shopping Cart on Mobile","Add product to cart from product page",""
+"  As a logged-in mobile user
+  I want to complete the checkout process
+  So that I can place orders from my mobile device","12186","Checkout with empty cart shows appropriate message","","Mon Apr 06 09:11:03 UTC 2026","passed","Mon Apr 06 09:11:15 UTC 2026","","Checkout on Mobile","Checkout with empty cart shows appropriate message",""
+"  As a mobile user
+  I want to browse and search products
+  So that I can find items I want to purchase","993","Search products by name","","Mon Apr 06 09:10:46 UTC 2026","passed","Mon Apr 06 09:10:47 UTC 2026","","Browse Products on Mobile","Search products by name",""
+"  As a logged-in mobile user
+  I want to manage my shopping cart
+  So that I can prepare items for checkout","2330","Clear entire cart","","Mon Apr 06 09:10:56 UTC 2026","passed","Mon Apr 06 09:10:58 UTC 2026","","Shopping Cart on Mobile","Clear entire cart",""
+"  As a mobile user
+  I want to browse and search products
+  So that I can find items I want to purchase","997","View product details page","","Mon Apr 06 09:11:25 UTC 2026","passed","Mon Apr 06 09:11:26 UTC 2026","","Browse Products on Mobile","View product details page",""
+"  As a mobile user
+  I want to login and register on the shop
+  So that I can access my account and make purchases","1108","Login with invalid credentials shows error","","Mon Apr 06 09:11:19 UTC 2026","passed","Mon Apr 06 09:11:20 UTC 2026","","User Authentication on Mobile","Login with invalid credentials shows error",""
+"  As a logged-in mobile user
+  I want to manage my shopping cart
+  So that I can prepare items for checkout","2322","Remove item from cart","","Mon Apr 06 09:10:54 UTC 2026","passed","Mon Apr 06 09:10:56 UTC 2026","","Shopping Cart on Mobile","Remove item from cart",""
+"  As a logged-in mobile user
+  I want to complete the checkout process
+  So that I can place orders from my mobile device","2351","Complete checkout flow on mobile","","Mon Apr 06 09:11:29 UTC 2026","passed","Mon Apr 06 09:11:31 UTC 2026","","Checkout on Mobile","Complete checkout flow on mobile",""
+"  As a mobile user
+  I want to browse and search products
+  So that I can find items I want to purchase","730","View product catalog on mobile","","Mon Apr 06 09:11:24 UTC 2026","passed","Mon Apr 06 09:11:25 UTC 2026","","Browse Products on Mobile","View product catalog on mobile",""
+"  As a mobile user
+  I want to browse and search products
+  So that I can find items I want to purchase","721","Filter products by category","","Mon Apr 06 09:10:47 UTC 2026","passed","Mon Apr 06 09:10:47 UTC 2026","","Browse Products on Mobile","Filter products by category",""
+"  As a logged-in mobile user
+  I want to manage my shopping cart
+  So that I can prepare items for checkout","2339","Update quantity in cart","","Mon Apr 06 09:10:51 UTC 2026","passed","Mon Apr 06 09:10:54 UTC 2026","","Shopping Cart on Mobile","Update quantity in cart",""
+"  As a logged-in mobile user
+  I want to complete the checkout process
+  So that I can place orders from my mobile device","2213","Verify order appears in order history after checkout","","Mon Apr 06 09:11:15 UTC 2026","passed","Mon Apr 06 09:11:17 UTC 2026","","Checkout on Mobile","Verify order appears in order history after checkout",""
+"  As a logged-in mobile user
+  I want to manage my shopping cart
+  So that I can prepare items for checkout","2218","Cart persists after page refresh","","Mon Apr 06 09:10:58 UTC 2026","passed","Mon Apr 06 09:11:01 UTC 2026","","Shopping Cart on Mobile","Cart persists after page refresh",""
+"  As a mobile user
+  I want to login and register on the shop
+  So that I can access my account and make purchases","1766","Register a new user on mobile","","Mon Apr 06 09:11:33 UTC 2026","passed","Mon Apr 06 09:11:35 UTC 2026","","User Authentication on Mobile","Register a new user on mobile",""
+"  As a mobile user
+  I want to browse and search products
+  So that I can find items I want to purchase","719","Scroll through product list","","Mon Apr 06 09:10:48 UTC 2026","passed","Mon Apr 06 09:10:49 UTC 2026","","Browse Products on Mobile","Scroll through product list",""
+"  As a mobile user
+  I want to login and register on the shop
+  So that I can access my account and make purchases","2141","Logout from mobile","","Mon Apr 06 09:11:22 UTC 2026","passed","Mon Apr 06 09:11:24 UTC 2026","","User Authentication on Mobile","Logout from mobile",""
+"  As a mobile user
+  I want to login and register on the shop
+  So that I can access my account and make purchases","1994","Successful login with valid credentials","","Mon Apr 06 09:11:31 UTC 2026","passed","Mon Apr 06 09:11:33 UTC 2026","","User Authentication on Mobile","Successful login with valid credentials",""
